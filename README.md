@@ -29,5 +29,5 @@ Pastikan Anda memiliki Python 3.x dan pip.
 - README.md: Panduan penggunaan proyek.
 
 ## Dashboard
-Berikut dibawah ini merupakan link dashboard yang sudah di deploy di streamlit
+Berikut ini merupakan link dashboard yang sudah di deploy di streamlit
 [Link ke Dashboard](https://yorizpra-ecommerce-analysis-dashboard-lh1uai.streamlit.app/)
