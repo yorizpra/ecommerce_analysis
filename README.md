@@ -27,3 +27,7 @@ Pastikan Anda memiliki Python 3.x dan pip.
 - dashboard.py: Script utama untuk menjalankan dashboard.
 - requirements.txt: File yang berisi daftar library yang dibutuhkan.
 - README.md: Panduan penggunaan proyek.
+
+## Dashboard
+Berikut dibawah ini merupakan link dashboard yang sudah di deploy di streamlit
+[Link ke Dashboard](https://yorizpra-ecommerce-analysis-dashboard-lh1uai.streamlit.app/)
