@@ -5,6 +5,8 @@ import datetime as dt
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
 
 # Setting up Streamlit
 st.title("Proyek Analisis Data: Dataset Pesanan E-Commerce")
@@ -91,6 +93,47 @@ st.write("""
 2. **Identifying Loyal Customers**: Pelanggan dengan nilai Frequency tinggi adalah pelanggan yang sering bertransaksi dan bisa dianggap loyal.
 3. **Identifying At-Risk Customers**: Pelanggan dengan nilai Recency tinggi menunjukkan bahwa sudah cukup lama sejak mereka melakukan pembelian terakhir.
 4. **Segmentation Suggestions**: Loyalists, At-Risk, dan New Customers.
+""")
+
+# 1. Visualisasi Rata-Rata Waktu Pengiriman Berdasarkan Status Pesanan
+st.subheader("Rata-Rata Waktu Pengiriman Berdasarkan Status Pesanan")
+avg_delivery_status = data.groupby('order_status')['delivery_duration_days'].mean().reset_index()
+
+fig_status = px.bar(
+    avg_delivery_status,
+    x='order_status',
+    y='delivery_duration_days',
+    title="Rata-Rata Waktu Pengiriman Berdasarkan Status Pesanan",
+    labels={'order_status': 'Status Pesanan', 'delivery_duration_days': 'Rata-Rata Waktu Pengiriman (hari)'},
+    color='order_status'
+)
+st.plotly_chart(fig_status)
+
+# 2. Visualisasi Tren Waktu Pengiriman Rata-Rata per Bulan
+st.subheader("Tren Waktu Pengiriman Rata-Rata per Bulan")
+data['order_purchase_month'] = data['order_purchase_timestamp'].dt.to_period('M')
+avg_delivery_month = data.groupby('order_purchase_month')['delivery_duration_days'].mean().reset_index()
+avg_delivery_month['order_purchase_month'] = avg_delivery_month['order_purchase_month'].astype(str)
+
+fig_trend = go.Figure()
+fig_trend.add_trace(go.Scatter(
+    x=avg_delivery_month['order_purchase_month'],
+    y=avg_delivery_month['delivery_duration_days'],
+    mode='lines+markers',
+    name='Waktu Pengiriman Rata-Rata'
+))
+fig_trend.update_layout(
+    title="Tren Waktu Pengiriman Rata-Rata per Bulan",
+    xaxis_title="Bulan",
+    yaxis_title="Rata-Rata Waktu Pengiriman (hari)"
+)
+st.plotly_chart(fig_trend)
+
+# Insight Baru Berdasarkan Visualisasi
+st.subheader("Insight Tambahan")
+st.write("""
+1. **Rata-Rata Waktu Pengiriman Berdasarkan Status**: Visualisasi ini memberikan informasi tentang variasi rata-rata waktu pengiriman di setiap status pesanan, sehingga dapat membantu untuk mengidentifikasi status dengan durasi pengiriman lebih tinggi.
+2. **Tren Waktu Pengiriman per Bulan**: Visualisasi ini membantu dalam mengamati tren waktu pengiriman setiap bulan, apakah terdapat fluktuasi tertentu, mungkin karena faktor musiman atau peningkatan volume pesanan di bulan tertentu.
 """)
 
 # Conclusion
