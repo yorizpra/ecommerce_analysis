@@ -136,6 +136,31 @@ st.write("""
 2. **Tren Waktu Pengiriman per Bulan**: Visualisasi ini membantu dalam mengamati tren waktu pengiriman setiap bulan, apakah terdapat fluktuasi tertentu, mungkin karena faktor musiman atau peningkatan volume pesanan di bulan tertentu.
 """)
 
+# Tambahkan kolom hari dalam seminggu
+data['order_day_of_week'] = data['order_purchase_timestamp'].dt.day_name()
+
+# Visualisasi Rata-Rata Waktu Pengiriman Berdasarkan Hari dalam Seminggu
+st.subheader("Rata-Rata Waktu Pengiriman Berdasarkan Hari Pembelian")
+avg_delivery_day = data.groupby('order_day_of_week')['delivery_duration_days'].mean().reindex(
+    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+).reset_index()
+
+fig_day = px.bar(
+    avg_delivery_day,
+    x='order_day_of_week',
+    y='delivery_duration_days',
+    title="Rata-Rata Waktu Pengiriman Berdasarkan Hari Pembelian",
+    labels={'order_day_of_week': 'Hari Pembelian', 'delivery_duration_days': 'Rata-Rata Waktu Pengiriman (hari)'},
+    color='order_day_of_week'
+)
+st.plotly_chart(fig_day)
+
+# Insight tambahan
+st.write("""
+**Insight Tambahan**:
+- Grafik ini membantu mengidentifikasi pola hari-hari tertentu yang mungkin memiliki durasi pengiriman lebih lama atau lebih singkat, sehingga bisa dijadikan acuan untuk perencanaan logistik atau manajemen pesanan.
+""")
+
 # Conclusion
 st.subheader("Kesimpulan")
 st.write("""
